@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Post IG - Haprender</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
@@ -24,46 +23,28 @@
             padding: 20px; 
         }
 
-        /* Controles */
         .extra-controls { display: flex; gap: 20px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
-        .color-picker { display: flex; gap: 10px; }
+        .color-picker { display: flex; gap: 10px; align-items: center; }
         .color-dot { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.2); }
 
-        /* Contenedor del Post */
         #canvas-post {
-            width: 500px;
-            height: 500px;
+            width: 500px; height: 500px;
             background: var(--primary-bg);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding: 60px;
-            box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            overflow: hidden;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            position: relative; padding: 60px;
+            box-sizing: border-box; overflow: hidden;
             border: 15px solid rgba(255,255,255,0.5);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        /* Formatos */
         .format-story { width: 360px !important; height: 640px !important; padding: 40px !important; }
         .format-story #frase-display { font-size: 36px; }
 
         .logo-container { position: absolute; top: 40px; width: 120px; display: flex; justify-content: center; z-index: 2; }
         .logo-container img { width: 100%; }
 
-        #frase-display {
-            font-size: 28px;
-            font-weight: 700;
-            text-align: center;
-            color: var(--text-color);
-            line-height: 1.4;
-            max-width: 90%;
-            z-index: 2;
-        }
-
+        #frase-display { font-size: 28px; font-weight: 700; text-align: center; color: var(--text-color); line-height: 1.4; max-width: 90%; z-index: 2; }
         .divider { width: 50px; height: 4px; background: var(--accent-color); margin-top: 20px; z-index: 2; }
         .username { position: absolute; bottom: 40px; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: #888; z-index: 2; }
 
@@ -80,16 +61,13 @@
         <div class="logo-container">
             <img src="Logo.png" alt="Logo">
         </div>
-        
         <div id="frase-display">Escribe aquí tu frase impactante para Instagram</div>
         <div class="divider"></div>
-
         <div class="username">@Haprender_</div>
     </div>
 
     <div class="controls">
         <h3>Editor de Contenido</h3>
-        
         <div class="extra-controls">
             <div>
                 <label>Formato:</label><br>
@@ -100,88 +78,8 @@
                 <label>Fondo:</label>
                 <div class="color-picker">
                     <div class="color-dot" style="background: #f8f9fa;" onclick="changeColor('#f8f9fa', '#2c3e50', 'Logo.png')"></div> 
-                    <div class="color-dot" style="background: #f8f9fa;" onclick="changeColor('#f8f9fa', '#2c3e50', 'Logo-blanco.png')"></div> 
-                    <div class="color-dot" style="background: #f8f9fa;" onclick="changeColor('#f8f9fa', '#2c3e50', 'Logo-verde.png')"></div>
-                </div>
-            </div>
-        </div>
+                    <div class="color-dot" style="background: #1a2a6c;" onclick="changeColor('#1a2a6c', '#ffffff', 'Logo-blanco
 
-        <label>Texto de la frase:</label>
-        <textarea id="input-text" placeholder="Escribe tu frase aquí..."></textarea>
-        
-        <label>Tu usuario:</label>
-        <input type="text" id="input-user" value="@Haprender_" style="width: 100%; margin-bottom: 15px; padding: 8px;">
-        
-        <button onclick="downloadImage()" style="width: 100%; background: #28a745;">Descargar Imagen</button>
-    </div>
-
-    <script>
-        const inputText = document.getElementById('input-text');
-        const inputUser = document.getElementById('input-user');
-        const displayFrase = document.getElementById('frase-display');
-        const displayUser = document.querySelector('.username');
-
-        inputText.addEventListener('input', () => {
-            displayFrase.innerText = inputText.value;
-        });
-
-        inputUser.addEventListener('input', () => {
-            displayUser.innerText = inputUser.value;
-        });
-
-        function changeFormat(type) {
-            const canvas = document.getElementById('canvas-post');
-            if (type === 'story') {
-                canvas.classList.add('format-story');
-            } else {
-                canvas.classList.remove('format-story');
-            }
-        }
-
-       function changeColor(bgColor, textColor, logoFile) {
-    const canvas = document.getElementById('canvas-post');
-    const frase = document.getElementById('frase-display');
-    const user = document.querySelector('.username');
-    const divider = document.querySelector('.divider');
-    const logoImg = document.querySelector('.logo-container img');
-
-    // Cambiar fondo y colores de texto
-    canvas.style.background = bgColor;
-    frase.style.color = textColor;
-    user.style.color = textColor;
-    
-    // Cambiar la fuente del logo según el fondo seleccionado
-    if(logoFile) {
-        logoImg.src = logoFile;
-    }
-
-    // El divisor siempre resalta: dorado en azul, o igual al texto en el resto
-    divider.style.background = (bgColor === '#1a2a6c') ? '#d4af37' : textColor;
-    
-    // Ajustar opacidad de la marca de agua si la tienes activa
-    const watermark = document.querySelector('.watermark');
-    if(watermark) {
-        watermark.src = logoFile; // La marca de agua también cambia de versión
-        watermark.style.opacity = (textColor === '#ffffff') ? '0.06' : '0.03';
-    }
-}
-
-        function downloadImage() {
-            const post = document.getElementById('canvas-post');
-            html2canvas(post, {
-                scale: 2,
-                backgroundColor: null,
-                useCORS: true
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'post-haprender.png';
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-            });
-        }
-    </script>
-</body>
-</html>
 
 
 
