@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Post IG</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary-bg: #f8f9fa;
+            --accent-color: #333333;
+            --text-color: #1a1a1a;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; background: #e0e0e0; padding: 20px; }
+
+        /* Contenedor del Post (Formato cuadrado 1080x1080) */
+        #canvas-post {
+            width: 500px;
+            height: 500px;
+            background: var(--primary-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 60px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        /* Logo Estándar */
+        .logo-container {
+            position: absolute;
+            top: 40px;
+            width: 80px;
+            height: auto;
+        }
+
+        .logo-container img { width: 100%; filter: grayscale(1); opacity: 0.8; }
+
+        /* Texto de la Frase */
+        #frase-display {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-color);
+            line-height: 1.4;
+            word-wrap: break-word;
+            max-width: 90%;
+        }
+
+        /* Adorno/Línea */
+        .divider {
+            width: 50px;
+            height: 4px;
+            background: var(--accent-color);
+            margin-top: 20px;
+        }
+
+        /* Usuario/Handle abajo */
+        .username {
+            position: absolute;
+            bottom: 40px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #888;
+        }
+
+        /* Controles de edición */
+        .controls { margin-top: 30px; background: white; padding: 20px; border-radius: 10px; width: 500px; }
+        textarea { width: 100%; height: 80px; margin-bottom: 10px; padding: 10px; box-sizing: border-box; }
+        button { background: #0095f6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #0077c2; }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-post">
+        <div class="logo-container">
+            <img src="C:\Users\Q4t4r\Desktop\Post\Logo.png" alt="Logo">
+        </div>
+        
+        <div id="frase-display">"Escribe aquí tu frase impactante para Instagram"</div>
+        <div class="divider"></div>
+
+        <div class="username">@tuusuario</div>
+    </div>
+
+    <div class="controls">
+        <h3>Editor de Contenido</h3>
+        <label>Texto de la frase:</label>
+        <textarea id="input-text" placeholder="Escribe tu frase, dato o idea aquí..."></textarea>
+        
+        <label>Tu usuario:</label>
+        <input type="text" id="input-user" placeholder="@tuusuario" style="width: 100%; margin-bottom: 15px; padding: 8px;">
+        
+        <button onclick="downloadImage()">Descargar como Imagen</button>
+    </div>
+
+    <script>
+        const inputText = document.getElementById('input-text');
+        const inputUser = document.getElementById('input-user');
+        const displayFrase = document.getElementById('frase-display');
+        const displayUser = document.querySelector('.username');
+
+        // Actualización en tiempo real
+        inputText.addEventListener('input', () => {
+            displayFrase.innerText = `"${inputText.value}"`;
+        });
+
+        inputUser.addEventListener('input', () => {
+            displayUser.innerText = inputUser.value;
+        });
+
+        // Función para descargar
+        function downloadImage() {
+            const post = document.getElementById('canvas-post');
+            html2canvas(post, {
+                scale: 2, // Mejora la calidad para Instagram
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'post-instagram.png';
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
+        }
+    </script>
+
+</body>
+</html>
