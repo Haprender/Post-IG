@@ -16,12 +16,58 @@
         }
 
         body { 
-            font-family: 'Poppins', sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            background: #e0e0e0; 
-            padding: 20px; 
+    font-family: 'Poppins', sans-serif; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    background: #e0e0e0; 
+    padding: 10px; /* Menos espacio en los bordes para móviles */
+}
+
+/* El Canvas ahora será responsivo */
+#canvas-post {
+    width: 100%;           /* Ocupa todo el ancho disponible */
+    max-width: 500px;      /* Pero nunca supera los 500px */
+    aspect-ratio: 1 / 1;   /* Mantiene siempre la forma cuadrada */
+    height: auto;          /* La altura se ajusta sola gracias al aspect-ratio */
+    background: var(--primary-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 10%;          /* Padding porcentual para que escale bien */
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    overflow: hidden;
+    border: 10px solid rgba(255,255,255,0.5); /* Borde un poco más fino */
+}
+
+/* El panel de controles también debe ser fluido */
+.controls { 
+    margin-top: 20px; 
+    background: white; 
+    padding: 20px; 
+    border-radius: 10px; 
+    width: 100%;           /* Ocupa el ancho del móvil */
+    max-width: 500px;      /* Límite para escritorio */
+    box-sizing: border-box;
+}
+
+/* Ajuste para los botones para que no se amontonen */
+.extra-controls { 
+    display: flex; 
+    gap: 15px; 
+    margin-bottom: 20px; 
+    align-items: flex-start; 
+    flex-direction: column; /* Los botones se apilan en móvil para mayor comodidad */
+}
+
+@media (min-width: 480px) {
+    .extra-controls {
+        flex-direction: row; /* En pantallas más grandes vuelven a estar uno al lado del otro */
+    }
+} 
         }
 
         /* Controles */
@@ -201,6 +247,7 @@
     </script>
 </body>
 </html>
+
 
 
 
