@@ -99,9 +99,9 @@
             <div>
                 <label>Fondo:</label>
                 <div class="color-picker">
-                    <div class="color-dot" style="background: #f8f9fa;" onclick="changeColor('#f8f9fa', '#2c3e50')"></div> 
-                    <div class="color-dot" style="background: #1a2a6c;" onclick="changeColor('#1a2a6c', '#ffffff')"></div> 
-                    <div class="color-dot" style="background: #333333;" onclick="changeColor('#333333', '#ffffff')"></div>
+                    <div class="color-dot" style="background: #f8f9fa;" onclick="changeColor('#f8f9fa', '#2c3e50', 'Logo.png')"></div> 
+                    <div class="color-dot" style="background: #f8f9fa;" onclick="changeColor('#f8f9fa', '#2c3e50', 'Logo-blanco.png')"></div> 
+                    <div class="color-dot" style="background: #f8f9fa;" onclick="changeColor('#f8f9fa', '#2c3e50', 'Logo-verde.png')"></div>
                 </div>
             </div>
         </div>
@@ -138,17 +138,33 @@
             }
         }
 
-        function changeColor(bgColor, textColor) {
-            const canvas = document.getElementById('canvas-post');
-            const frase = document.getElementById('frase-display');
-            const user = document.querySelector('.username');
-            const divider = document.querySelector('.divider');
+       function changeColor(bgColor, textColor, logoFile) {
+    const canvas = document.getElementById('canvas-post');
+    const frase = document.getElementById('frase-display');
+    const user = document.querySelector('.username');
+    const divider = document.querySelector('.divider');
+    const logoImg = document.querySelector('.logo-container img');
 
-            canvas.style.background = bgColor;
-            frase.style.color = textColor;
-            user.style.color = textColor;
-            divider.style.background = (bgColor === '#1a2a6c') ? '#d4af37' : textColor;
-        }
+    // Cambiar fondo y colores de texto
+    canvas.style.background = bgColor;
+    frase.style.color = textColor;
+    user.style.color = textColor;
+    
+    // Cambiar la fuente del logo según el fondo seleccionado
+    if(logoFile) {
+        logoImg.src = logoFile;
+    }
+
+    // El divisor siempre resalta: dorado en azul, o igual al texto en el resto
+    divider.style.background = (bgColor === '#1a2a6c') ? '#d4af37' : textColor;
+    
+    // Ajustar opacidad de la marca de agua si la tienes activa
+    const watermark = document.querySelector('.watermark');
+    if(watermark) {
+        watermark.src = logoFile; // La marca de agua también cambia de versión
+        watermark.style.opacity = (textColor === '#ffffff') ? '0.06' : '0.03';
+    }
+}
 
         function downloadImage() {
             const post = document.getElementById('canvas-post');
@@ -166,6 +182,7 @@
     </script>
 </body>
 </html>
+
 
 
 
